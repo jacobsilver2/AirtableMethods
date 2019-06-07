@@ -1,7 +1,7 @@
 var Airtable = require('airtable');
 require('dotenv').config();
 var base = new Airtable({apiKey: `${process.env.API_KEY}`}).base('app4Eb0X39KtGToOS');
-const inquirer = require('inquirer')
+const moment = require('moment');
 
 
 
@@ -14,7 +14,8 @@ const inquirer = require('inquirer')
     // This function (`page`) will get called for each page of records.
 
     records.forEach(function(record) {
-        console.log(record);
+        const time = moment(record.fields.Date).format('h:mma')
+        console.log(`${time} - ${record.fields.Name}`);
     });
 
     // To fetch the next page of records, call `fetchNextPage`.
