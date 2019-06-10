@@ -31,3 +31,9 @@ const addActQuestions = [
   name: 'email',
   message: "Enter an email address for the act:\n"
 }];
+
+module.exports = {
+  addEventQuestions,
+  addActPromptQuestion,
+  addActQuestions
+}

@@ -10,21 +10,21 @@ let questions = [{
 }]
 
 inquirer.prompt(questions).then(answers => {
-  console.log(answers);
   findEventsByName(answers.name)
 })
 
 function findEventsByName (name) {
   base('Events').select({
     // Selecting the first 3 records in Grid:
-    maxRecords: 3,
+    // maxRecords: 16,
     view: "Grid",
     filterByFormula: `({Name} = \"${name}\")`
 }).eachPage(function page(records, fetchNextPage) {
     // This function (`page`) will get called for each page of records.
+    console.log(records.length)
 
     records.forEach(function(record) {
-        console.log(record);
+        console.log(record)
     });
 
     // To fetch the next page of records, call `fetchNextPage`.

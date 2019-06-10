@@ -1,6 +1,7 @@
-var Airtable = require('airtable');
+const Airtable = require('airtable');
 require('dotenv').config();
-var base = new Airtable({apiKey: `${process.env.API_KEY}`}).base('app4Eb0X39KtGToOS');
+const base = new Airtable({apiKey: `${process.env.API_KEY}`}).base('app4Eb0X39KtGToOS');
+const tynt = require('tynt');
 const inquirer = require('inquirer');
 const moment = require('moment');
 const questions = require('./addEventQuestions');
@@ -27,7 +28,7 @@ function createEvent(answers) {
       console.error(err);
       return;
     }
-    console.log(`A new event has been created with the id ${record.getId()}.\nDo you want to add an act?`);
+    console.log(tynt.Blink(`A new event has been created with the id ${record.getId()}.\nDo you want to add an act?`));
     inquirer.prompt(questions.addActPromptQuestion).then(answers => {
       if (answers.response === 'yes') {
         inquirer.prompt(questions.addActQuestions).then(moreAnswers => {
