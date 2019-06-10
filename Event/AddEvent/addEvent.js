@@ -3,44 +3,9 @@ require('dotenv').config();
 var base = new Airtable({apiKey: `${process.env.API_KEY}`}).base('app4Eb0X39KtGToOS');
 const inquirer = require('inquirer');
 const moment = require('moment');
-const tz = require('moment-timezone');
+const questions = require('./addEventQuestions');
 
-const questions = [{
-  type: 'input',
-  name: 'name',
-  message: "Band Name:\n",
-}, {
-  type: 'input',
-  name: 'date',
-  message: "Date:\n",
-}, {
-  type: 'input',
-  name: 'time',
-  message: 'Time:\n',
-},
-{
-  type: 'list',
-  name: 'status',
-  choices: ['Confirmed', 'Held', 'Cancelled']
-}]
-
-const addActPromptQuestion = [
-  {
-    type: 'list',
-    name: 'response',
-    choices: ['yes', 'no']
-  }
-];
-
-const addActQuestions = [
-{
-  type: 'input',
-  name: 'email',
-  message: "Enter an email address for the act:\n"
-}];
-
-
-inquirer.prompt(questions).then(answers => {
+inquirer.prompt(questions.addEventQuestions).then(answers => {
   createEvent(answers)
 });
 
@@ -63,9 +28,9 @@ function createEvent(answers) {
       return;
     }
     console.log(`A new event has been created with the id ${record.getId()}.\nDo you want to add an act?`);
-    inquirer.prompt(addActPromptQuestion).then(answers => {
+    inquirer.prompt(questions.addActPromptQuestion).then(answers => {
       if (answers.response === 'yes') {
-        inquirer.prompt(addActQuestions).then(moreAnswers => {
+        inquirer.prompt(questions.addActQuestions).then(moreAnswers => {
           checkIfActExistsAndAddToEvents(moreAnswers.email, record.get('Name'), record.getId());
         })
       }

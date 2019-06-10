@@ -7,7 +7,6 @@ const moment = require('moment');
 
   base('Events').select({
     // Selecting the first 3 records in Grid:
-    maxRecords: 3,
     view: "Grid",
     filterByFormula: "DATETIME_DIFF({Date},Today(), 'days')=0"
 }).eachPage(function page(records, fetchNextPage) {

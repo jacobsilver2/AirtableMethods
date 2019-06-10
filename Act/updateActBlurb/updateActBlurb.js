@@ -2,41 +2,21 @@ const Airtable = require('airtable');
 require('dotenv').config();
 const base = new Airtable({apiKey: `${process.env.API_KEY}`}).base('app4Eb0X39KtGToOS');
 const inquirer = require('inquirer')
+const questions = require('./updateActBlurbQuestions')
 
-const searchQuestions = [{
-  type: 'input',
-  name: 'email',
-  message: "Enter an email address:\n",
-}, {
-  type: 'input',
-  name: 'name',
-  message: "Enter the act name:\n"
-}]
-
-const blurbQuestions = [
-  {
-    type: 'input',
-    name: 'blurb',
-    message: 'Enter the blurb:\n'
-  },
-]
-
-
-inquirer.prompt(searchQuestions).then(answers => {
+inquirer.prompt(questions.searchQuestions).then(answers => {
   findActs(answers.email, answers.name)
 })
 
 function findActs (email, name) {
   base('Acts').select({
-    // Selecting the first 3 records in Grid:
     view: "Grid",
     filterByFormula: `(AND({Email} = \"${email}\", {Name} = \"${name}\"))`
 }).eachPage(function page(records, fetchNextPage) {
     // This function (`page`) will get called for each page of records.
     console.log(records.length)
     records.forEach(function(record) {
-        // updateBlurb(record.id)
-        // console.log(record)
+        updateBlurb(record.id)
     });
     // To fetch the next page of records, call `fetchNextPage`.
     // If there are more records, `page` will get called again.
@@ -49,7 +29,7 @@ function findActs (email, name) {
 };
 
 function updateBlurb(id) {
-  inquirer.prompt(blurbQuestions).then(answers => {
+  inquirer.prompt(questions.blurbQuestions).then(answers => {
     base('Acts').update(id, {
       Blurb: answers.blurb
     }, function(err, record) {
