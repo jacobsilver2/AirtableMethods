@@ -16,7 +16,7 @@
 
 ## Methods To Add
 
-- [ ] changeDateAndTimeOfEvent.js
+- [x] changeDateAndTimeOfEvent.js
 - [ ] getYesterdaysEventsAndAddReportAndDraw.js
 
 ## General Airtable Ideas
