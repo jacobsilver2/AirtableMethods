@@ -2,7 +2,7 @@ const Airtable = require('airtable');
 require('dotenv').config();
 const base = new Airtable({apiKey: `${process.env.API_KEY}`}).base('app4Eb0X39KtGToOS');
 const inquirer = require('inquirer')
-const questions = require('./updateActBlurbQuestions')
+const questions = require('./updateActBlurbAndUrlQuestions')
 
 inquirer.prompt(questions.searchQuestions).then(answers => {
   findActs(answers.email, answers.name)
@@ -31,7 +31,8 @@ function findActs (email, name) {
 function updateBlurb(id) {
   inquirer.prompt(questions.blurbQuestions).then(answers => {
     base('Acts').update(id, {
-      Blurb: answers.blurb
+      Blurb: answers.blurb,
+      Website: answers.website,
     }, function(err, record) {
       if (err) {
         console.error(err);
