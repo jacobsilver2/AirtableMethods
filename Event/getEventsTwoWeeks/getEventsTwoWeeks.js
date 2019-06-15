@@ -4,12 +4,13 @@ var base = new Airtable({apiKey: `${process.env.API_KEY}`}).base('app4Eb0X39KtGT
 const moment = require('moment');
 
   base('Events').select({
-    // Selecting the first 3 records in Grid:
-    view: "Yesterday",
+    view: "2 Weeks",
 }).eachPage(function page(records, fetchNextPage) {
+    // This function (`page`) will get called for each page of records.
     records.forEach(function(record) {
         console.log(record)
     });
+
 }, function done(err) {
     if (err) { console.error(err); return; }
 });
