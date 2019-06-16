@@ -7,15 +7,13 @@ const moment = require('moment');
 
   base('Events').select({
     // Selecting the first 3 records in Grid:
-    view: "Grid",
-    filterByFormula: "IS_SAME({Date},Today(), 'day')"
+    view: "Yesterday",
 }).eachPage(function page(records, fetchNextPage) {
     // This function (`page`) will get called for each page of records.
 
     records.forEach(function(record) {
-        // const time = moment(record.fields.Date).format('h:mma')
-        // console.log(`${time} - ${record.fields.Name}`);
-        console.log(record)
+        const time = moment(record.fields.Date).format("h:mm a");
+        console.log(`${time} - ${record.fields.Name}`)
     });
 
     // To fetch the next page of records, call `fetchNextPage`.
