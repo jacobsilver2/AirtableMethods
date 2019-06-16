@@ -10,19 +10,13 @@ inquirer.prompt(questions.addEventQuestions).then(answers => {
   createEvent(answers)
 });
 
-
-
 function createEvent(answers) {
   const {name, date, time, status} = answers;
-  const formattedDate = moment(`${date}, ${time}`, 'MMMD,YYYY, h:ma').format()
+  const formattedDate = moment.utc(`${date}, ${time}`, 'MMMD,YYYY, h:ma').format()
   base('Events').create({
     "Name": `${name}`,
-    // "Act (link)": [
-    //   "reczhCE1FTA4DPv4v"
-    // ],
     "Status": `${status}`,
     "Date": formattedDate
-    // "Date": "2016-10-11T19:00:00.000Z"
   }, function(err, record) {
     if (err) {
       console.error(err);

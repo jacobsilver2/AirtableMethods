@@ -25,7 +25,7 @@
 
 - [ ] Create a new form for each day so the staff can update draw and numbers.
 - [ ] Create a form so Andy and Dave can create events and acts.
-- [ ] Create an automation which sends a confirmation email each time an event is added to airtable and marked as confirmed (and includes a linked act).  This form should also contain a dynamic link which allows the act to fill out a form for blurb, link and image.
+- [x] Create an automation which sends a confirmation email each time an event is added to airtable and marked as confirmed (and includes a linked act).  This form should also contain a dynamic link which allows the act to fill out a form for blurb, link and image.
 - [ ] Create an automation which sends a 3 week confirmation.
 - [ ] Create an automation which sends a 2 week confirmation.
 - [ ] Create an automation which sends a 1 week confirmation.

@@ -14,6 +14,11 @@ const blurbQuestions = [
     name: 'blurb',
     message: 'Enter the blurb:\n'
   },
+  {
+    type: 'input',
+    name: 'website',
+    message: 'Enter the website:\n',
+  }
 ];
 
 module.exports = {
