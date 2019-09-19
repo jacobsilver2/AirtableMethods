@@ -1,6 +1,6 @@
 const Airtable = require('airtable');
 require('dotenv').config();
-const base = new Airtable({apiKey: `${process.env.API_KEY}`}).base('app4Eb0X39KtGToOS');
+const base = new Airtable({apiKey: 'keyY11TcpoTR646Fh'}).base('app4Eb0X39KtGToOS');
 const tynt = require('tynt');
 const inquirer = require('inquirer');
 const moment = require('moment');
