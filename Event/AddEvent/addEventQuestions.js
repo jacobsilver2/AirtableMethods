@@ -14,7 +14,7 @@ const addEventQuestions = [{
 {
   type: 'list',
   name: 'status',
-  choices: ['Confirmed', 'Held', 'Cancelled']
+  choices: ['Confirmed', 'Held', 'Cancelled', 'Note', 'Private Event']
 }]
 
 const addActPromptQuestion = [
