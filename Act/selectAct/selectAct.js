@@ -1,48 +1,60 @@
-const Airtable = require('airtable');
-require('dotenv').config();
-const base = new Airtable({apiKey: `${process.env.API_KEY}`}).base('app4Eb0X39KtGToOS');
-const inquirer = require('inquirer');
-const questions = require('./selectActQuestions');
+const Airtable = require("airtable");
+require("dotenv").config();
+const base = new Airtable({ apiKey: "keyY11TcpoTR646Fh" }).base(
+  "app4Eb0X39KtGToOS"
+);
+const inquirer = require("inquirer");
+const questions = require("./selectActQuestions");
+const dateFunctions = require("../../utllity/formatCalendarDate");
 
-
-
-
-inquirer.prompt(questions.searchQuestions).then(answers => {
-  findActs(answers.email, answers.name)
-})
-
-function findActs (email, name) {
-  base('Acts').select({
-    // Selecting the first 3 records in Grid:
-    view: "Grid",
-    filterByFormula: `(AND({Email} = \"${email}\", {Name} = \"${name}\"))`
-}).eachPage(function page(records, fetchNextPage) {
-    // This function (`page`) will get called for each page of records.
-    console.log(records.length)
-    records.forEach(function(record) {
-        // updateBlurb(record.id)
-        // console.log(record)
-    });
-    // To fetch the next page of records, call `fetchNextPage`.
-    // If there are more records, `page` will get called again.
-    // If there are no more records, `done` will get called.
-    fetchNextPage();
-
-}, function done(err) {
-    if (err) { console.error(err); return; }
+inquirer.prompt(questions.nameOrEmail).then(answers => {
+  inquirer.prompt(questions.searchQuestions).then(resp => {
+    findActs(answers.searchBy, resp.search);
+  });
 });
-};
 
-function updateBlurb(id) {
-  inquirer.prompt(questions.blurbQuestions).then(answers => {
-    base('Acts').update(id, {
-      Blurb: answers.blurb
-    }, function(err, record) {
-      if (err) {
-        console.error(err);
-        return;
+function findActs(searchBy, search) {
+  base("Acts")
+    .select({
+      view: "Grid",
+      // filterByFormula: '{Name} = "Jason Myles Goss"'
+      filterByFormula: `({${searchBy}} = \"${search}\")`
+    })
+    .eachPage(
+      function page(records, fetchNextPage) {
+        console.log(
+          `${records.length} ${records.length > 1 ? "records" : "record"} found`
+        );
+        records.forEach(function(record) {
+          console.log(`Act Name - ${record.fields.Name}`);
+          record.fields.Events.forEach(event => {
+            findEvent(event);
+          });
+        });
+        fetchNextPage();
+      },
+      function done(err) {
+        if (err) {
+          console.error(err);
+          return;
+        }
       }
-      console.log(record.get('Name'));
-    });
-  })
+    );
+}
+
+function findEvent(id) {
+  base("Events").find(id, function(err, record) {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    console.log(dateFunctions.formatCalendarDate(record.fields.Date));
+    console.log(dateFunctions.formatCalendarTime(record.fields.Date));
+    if (record.fields.Report) {
+      console.log(record.fields.Report);
+    }
+    if (record.fields.Draw) {
+      console.log(record.fields.Draw);
+    }
+  });
 }
