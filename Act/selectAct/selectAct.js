@@ -17,7 +17,6 @@ function findActs(searchBy, search) {
   base("Acts")
     .select({
       view: "Grid",
-      // filterByFormula: '{Name} = "Jason Myles Goss"'
       filterByFormula: `({${searchBy}} = \"${search}\")`
     })
     .eachPage(
