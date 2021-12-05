@@ -1,4 +1,5 @@
-require("dotenv").config({ path: require("find-config")(".env") });
+const path = require("path");
+require("dotenv").config({ path: path.join(__dirname, "../../.env") });
 var Airtable = require("airtable");
 const base = new Airtable({ apiKey: process.env.API_KEY }).base(
   "app4Eb0X39KtGToOS"
