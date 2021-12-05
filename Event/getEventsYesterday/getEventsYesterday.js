@@ -1,15 +1,82 @@
-var Airtable = require('airtable');
-require('dotenv').config();
-var base = new Airtable({apiKey: `${process.env.API_KEY}`}).base('app4Eb0X39KtGToOS');
-const moment = require('moment');
+require("dotenv").config({ path: require("find-config")(".env") });
+var Airtable = require("airtable");
+const base = new Airtable({ apiKey: process.env.API_KEY }).base(
+  "app4Eb0X39KtGToOS"
+);
+const moment = require("moment");
+const inquirer = require("inquirer");
 
-  base('Events').select({
-    // Selecting the first 3 records in Grid:
+base("Events")
+  .select({
     view: "Yesterday",
-}).eachPage(function page(records, fetchNextPage) {
-    records.forEach(function(record) {
-        console.log(record)
+  })
+  .eachPage(
+    function page(records, fetchNextPage) {
+      selectEventToChange(records);
+    },
+    function done(err) {
+      if (err) {
+        console.error(err);
+      }
+    }
+  );
+
+function selectEventToChange(records) {
+  const yesterdaysEventsWithId = records.map((record) => {
+    return { name: record.fields.Name, id: record.fields.id };
+  });
+
+  const yesterdaysEvents = records.map((record) => {
+    return record.fields.Name;
+  });
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        name: "eventSelect",
+        message: "Choose which event you'd like to update",
+        choices: yesterdaysEvents,
+      },
+    ])
+    .then((answers) => {
+      const selectedAnswer = records.filter(
+        (record) => answers.eventSelect === record.fields.Name
+      );
+      enterDrawAndReport(selectedAnswer[0].id);
     });
-}, function done(err) {
-    if (err) { console.error(err); return; }
-});
+}
+
+function enterDrawAndReport(id) {
+  console.log("Enter the draw and report");
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "draw",
+        message: "Draw:\n",
+      },
+      {
+        type: "input",
+        name: "report",
+        message: "Report\n",
+      },
+    ])
+    .then((answers) => updateDrawAndReport(id, answers));
+}
+
+function updateDrawAndReport(id, answers) {
+  base("Events").update(
+    id,
+    {
+      Draw: parseInt(answers.draw),
+      Report: answers.report,
+    },
+    function (err, record) {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      console.log("yep");
+    }
+  );
+}

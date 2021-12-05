@@ -1,14 +1,11 @@
 const Airtable = require("airtable");
-require("dotenv").config();
-const base = new Airtable({ apiKey: "keyY11TcpoTR646Fh" }).base(
-  "app4Eb0X39KtGToOS"
-);
+require("dotenv").config({ path: require("find-config")(".env") });
 const inquirer = require("inquirer");
 const questions = require("./selectActQuestions");
 const dateFunctions = require("../../utllity/formatCalendarDate");
 
-inquirer.prompt(questions.nameOrEmail).then(answers => {
-  inquirer.prompt(questions.searchQuestions).then(resp => {
+inquirer.prompt(questions.nameOrEmail).then((answers) => {
+  inquirer.prompt(questions.searchQuestions).then((resp) => {
     findActs(answers.searchBy, resp.search);
   });
 });
@@ -17,16 +14,16 @@ function findActs(searchBy, search) {
   base("Acts")
     .select({
       view: "Grid",
-      filterByFormula: `({${searchBy}} = \"${search}\")`
+      filterByFormula: `({${searchBy}} = \"${search}\")`,
     })
     .eachPage(
       function page(records, fetchNextPage) {
         console.log(
           `${records.length} ${records.length > 1 ? "records" : "record"} found`
         );
-        records.forEach(function(record) {
+        records.forEach(function (record) {
           console.log(`Act Name - ${record.fields.Name}`);
-          record.fields.Events.forEach(event => {
+          record.fields.Events.forEach((event) => {
             findEvent(event);
           });
         });
@@ -42,7 +39,7 @@ function findActs(searchBy, search) {
 }
 
 function findEvent(id) {
-  base("Events").find(id, function(err, record) {
+  base("Events").find(id, function (err, record) {
     if (err) {
       console.error(err);
       return;

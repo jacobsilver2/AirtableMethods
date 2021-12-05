@@ -1,19 +1,22 @@
-var Airtable = require('airtable');
-require('dotenv').config();
+var Airtable = require("airtable");
+require("dotenv").config({ path: require("find-config")(".env") });
 
-function findAct (id) {
+function findAct(id) {
   Airtable.configure({
-    endpointUrl: 'https://api.airtable.com',
-    apiKey: `${process.env.API_KEY}`
-});
-var base = Airtable.base('app4Eb0X39KtGToOS');
+    endpointUrl: "https://api.airtable.com",
+    apiKey: `${process.env.API_KEY}`,
+  });
+  var base = Airtable.base("app4Eb0X39KtGToOS");
 
-base('Acts').find(id, function(err, record) {
-  if (err) { console.error(err); return; }
-  console.log(record);
-});
+  base("Acts").find(id, function (err, record) {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    console.log(record);
+  });
 }
 
 module.exports = {
-  findAct
-}
+  findAct,
+};
