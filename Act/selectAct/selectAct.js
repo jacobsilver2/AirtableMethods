@@ -1,5 +1,6 @@
 const Airtable = require("airtable");
-require("dotenv").config({ path: require("find-config")(".env") });
+const path = require("path");
+require("dotenv").config({ path: path.join(__dirname, "../../.env") });
 const inquirer = require("inquirer");
 const questions = require("./selectActQuestions");
 const dateFunctions = require("../../utllity/formatCalendarDate");

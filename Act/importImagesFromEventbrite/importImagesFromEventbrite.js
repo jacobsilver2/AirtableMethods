@@ -1,5 +1,6 @@
 var Airtable = require("airtable");
-require("dotenv").config({ path: require("find-config")(".env") });
+const path = require("path");
+require("dotenv").config({ path: path.join(__dirname, "../../.env") });
 const fetch = require("isomorphic-fetch");
 const eventbrite = "http://www.eventbrite.com/venue/api/feeds/venue/424.json";
 const myReg = /([0-9]|0[0-9]|1[0-9]|2[0-3]):([0-5][0-9])\s*([AaPp][Mm])/;

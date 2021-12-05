@@ -1,5 +1,6 @@
 var Airtable = require("airtable");
-require("dotenv").config({ path: require("find-config")(".env") });
+const path = require("path");
+require("dotenv").config({ path: path.join(__dirname, "../../.env") });
 
 function findAct(id) {
   Airtable.configure({
