@@ -16,7 +16,7 @@
     "find-config": "^1.0.0",
     "inquirer": "^8.1.0",
     "isomorphic-fetch": "^2.2.1",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "moment-timezone": "^0.5.25",
     "path": "^0.12.7",
     "tynt": "^1.2.0"
